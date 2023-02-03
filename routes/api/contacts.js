@@ -1,22 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { validateRequest } = require('../../middlewares/validationMiddlewares');
+const { validateRequest } = require('../../middlewares/validationMiddleware');
 const { schemaCreate, schemaPatch } = require('../../models/contact');
-const {
-  getAllController, 
-  getByIdController, 
-  createController, 
-  updateByIdController, 
-  updateStatusByIdController,
-  deleteByIdController,
-} = require('../../controllers/contactsController');
+const contacts = require('../../controllers/contacts/index');
+const { asyncWrapper } = require('../../helpers/apiHelpers');
+const { authMiddleware } = require('../../middlewares/authMiddleware');
 
-
-router.get('/', getAllController);
-router.get('/:contactId', getByIdController);
-router.post('/', validateRequest(schemaCreate), createController);
-router.put('/:contactId', updateByIdController);
-router.patch('/:contactId/favorite', validateRequest(schemaPatch), updateStatusByIdController);
-router.delete('/:contactId', deleteByIdController);
+router.use(authMiddleware)
+router.get('/', asyncWrapper(contacts.getAllController));
+router.get('/:contactId', asyncWrapper(contacts.getByIdController));
+router.post('/', validateRequest(schemaCreate), contacts.createController);
+router.put('/:contactId', asyncWrapper(contacts.updateByIdController));
+router.patch('/:contactId/favorite', validateRequest(schemaPatch), contacts.updateStatusByIdController);
+router.delete('/:contactId', asyncWrapper(contacts.deleteByIdController));
 
 module.exports = router;

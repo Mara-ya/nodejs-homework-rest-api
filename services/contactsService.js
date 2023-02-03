@@ -1,28 +1,29 @@
 const { Contact } = require('../models/contact');
 
-const getAll = async () => {
-    return Contact.find({});
+const getAll = async (owner) => {
+    return Contact.find({owner});
 }
 
-const getById = async (id) => {
-    return Contact.findById(id);
+const getById = async (_id, owner) => {
+    return Contact.findOne({_id, owner})
 }
 
-const create = async (contact) => {
-    return Contact.create(contact);
+const create = async (contact, owner) => {
+    const newContact = new Contact({...contact, owner})
+    const savedContact = await newContact.save();
+    return savedContact;
 }
 
-const updateById = async (id, contact) => {
-    return Contact.findByIdAndUpdate(id, contact, { new: true });
+const updateById = async (_id, contact, owner) => {
+    return Contact.findOneAndUpdate({_id, owner}, contact, { new: true });
 }
 
-const updateStatusById = async (id, contact) => {
-    return Contact.findByIdAndUpdate(id, contact, { new: true });
+const updateStatusById = async (_id, contact, owner) => {
+    return Contact.findOneAndUpdate({_id, owner}, contact, { new: true });
 }
 
-
-const deleteById = async (id) => {
-    return Contact.findByIdAndDelete(id);
+const deleteById = async (_id, owner) => {
+    return await Contact.findOneAndRemove({_id, owner});
 }
 
 module.exports = {

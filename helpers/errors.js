@@ -1,18 +1,34 @@
-class ValidationError extends Error {
-    constructor(status, message) {
+class BadRequest extends Error {
+    constructor(message) {
         super(message);
-        this.status = status
+        this.status = 400;
     }
 }
 
-const createError = (status, message) => {
-    const e = new Error();
-    e.status = status;
-    e.message = message;
-    return e;
+class ValidationError extends BadRequest {
+    constructor(message) {
+        super(message);
+        this.status = 400;
+    }
+}
+
+class NotAuthorizedError extends BadRequest {
+    constructor(message) {
+        super(message);
+        this.status = 401;
+    }
+}
+
+class RegistrationConflictError extends BadRequest {
+    constructor(message) {
+        super(message);
+        this.status = 409;
+    }
 }
 
 module.exports = {
+    BadRequest,
     ValidationError,
-    createError,
+    NotAuthorizedError,
+    RegistrationConflictError,
 }
