@@ -12,7 +12,6 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true})
 }).then(() => {
   console.log(`Server is on ${PORT}`);
 }).catch((error) => {
-  console.log(1)
   console.log('ERROR', error);
   process.exit(1);
 });

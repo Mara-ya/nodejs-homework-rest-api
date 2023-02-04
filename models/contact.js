@@ -16,6 +16,11 @@ const schema = new Schema({
     type: Boolean,
     default: false,
   },
+  owner: {
+    type: String,
+    required: true,
+    ref: 'User',
+  },
 });
 
 const Contact = model('Contact', schema);
@@ -36,6 +41,8 @@ const schemaCreate = Joi.object({
     .required(),
 
   favorite: Joi.boolean(),
+
+  owner: Joi.string(),
 })
 
 const schemaPatch = Joi.object({
