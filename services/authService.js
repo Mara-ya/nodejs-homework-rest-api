@@ -3,11 +3,13 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 const { NotAuthorizedError, RegistrationConflictError } = require('../helpers/errors');
 
-const signup = async (email, password) => {
+const signup = async (email, password, avatarURL) => {
     try {
+        console.log(password)
         const user = new User({
             email, 
-            password
+            password,
+            avatarURL
         });
 
         await user.save();
@@ -22,7 +24,7 @@ const signup = async (email, password) => {
 }
 
 const login = async (email, password) => {
-    const {_id, password: userPasword, subscription, token} = await User.findOne({email});
+    const {_id, password: userPasword, subscription} = await User.findOne({email});
     if(!email && !password){
         throw new NotAuthorizedError('Email or password is wrong');
     }
@@ -31,6 +33,8 @@ const login = async (email, password) => {
     if(!matching){
         throw new NotAuthorizedError(`Email or password is wrong`);
     }
+
+    const token = jwt.sign({_id}, process.env.JWT_SECRET);
     await User.findByIdAndUpdate(_id, {token})
 
     return {
@@ -51,9 +55,14 @@ const current = async (token) => {
     return user
 }
 
+const updateUser = async (id, data) => {
+    return User.findByIdAndUpdate(id, data, {new: true});
+}
+
 module.exports = {
     signup,
     login,
     logout,
-    current
+    current,
+    updateUser
 }

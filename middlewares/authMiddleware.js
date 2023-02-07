@@ -7,8 +7,8 @@ const authMiddleware = (req, res, next) => {
         throw new NotAuthorizedError('Not authorized');
     }
 
-    const [, token] = authorization.split(' ');
-    if (!token) {
+    const [tokenType, token] = authorization.split(' ');
+    if (!token || tokenType !== 'Bearer') {
         throw new NotAuthorizedError('Not authorized');
     }
     
