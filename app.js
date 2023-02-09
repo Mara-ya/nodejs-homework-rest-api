@@ -19,8 +19,4 @@ app.use('/api/users', authRouter);
 
 app.use(errorHandler)
 
-// app.use((err, req, res, next) => {
-//   res.status(500).json({ message: err.message });
-// })
-
 module.exports = app
