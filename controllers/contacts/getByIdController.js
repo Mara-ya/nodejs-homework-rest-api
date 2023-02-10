@@ -1,7 +1,7 @@
 const { BadRequest } = require('../../helpers/errors');
 const { getById } = require('../../services/contactsService')
 
-const getByIdController = async (req, res) => {
+const getByIdController = async (req, res,next) => {
     const { contactId } = req.params;
     const { _id } = req.user
     const contactById = await getById(contactId, _id);
