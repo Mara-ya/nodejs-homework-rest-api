@@ -14,6 +14,8 @@ const PUBLIC_DIR = path.resolve('./public/avatars');
 router.use('/avatars', express.static(PUBLIC_DIR));
 
 router.post('/signup', validateRequest(schemaCreate), asyncWrapper(auth.signupController));
+router.get('/verify/:verificationToken', asyncWrapper(auth.registrationConfirmationController));
+router.post('/verify', asyncWrapper(auth.reSendVerificationTokenController));
 router.post('/login', asyncWrapper(auth.loginController));
 router.post('/logout', authMiddleware, asyncWrapper(auth.logoutController));
 router.post('/current', authMiddleware, asyncWrapper(auth.currentController));

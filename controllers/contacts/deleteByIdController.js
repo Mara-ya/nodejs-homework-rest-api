@@ -1,4 +1,3 @@
-const { BadRequest } = require('../../helpers/errors');
 const { deleteById } = require('../../services/contactsService')
 
 const deleteByIdController = async (req, res) => {

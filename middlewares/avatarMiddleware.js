@@ -21,10 +21,10 @@ const avatarMiddleware = multer({
             cb(new BadRequest(400, 'Wrong format'))
         }
     },
-    // limits: {
-    //     fieldNameSize: 100,
-    //     fileSize: 5000000,
-    // }
+    limits: {
+        fieldNameSize: 100,
+        fileSize: 5000000,
+    }
 })
 
 module.exports = avatarMiddleware;

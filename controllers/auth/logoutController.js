@@ -1,14 +1,9 @@
 const {logout} = require('../../services/authService')
 
-
-const logoutController = async(req, res, next) => {
-    try {
-        const {_id} = req.user;
-        await logout(_id);
-        res.status(204).json()
-    } catch (error) {
-        next(error)
-    }
+const logoutController = async(req, res) => {
+    const {_id} = req.user;
+    await logout(_id);
+    res.status(204).json()
 }
 
 module.exports = logoutController;

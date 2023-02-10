@@ -22,6 +22,14 @@ const userSchema = new Schema({
         default: null,
     },
     avatarURL: String,
+    verify: {
+        type: Boolean,
+        default: false,
+    },
+    verificationToken: {
+        type: String,
+        required: [true, 'Verify token is required'],
+    },
 });
 
 userSchema.pre('save', async function () {
@@ -46,6 +54,12 @@ const schemaCreate = Joi.object({
     .valid('starter', 'pro', 'business'),
 
     token: Joi.string(),
+
+    avatarURL: Joi.string(),
+
+    verify: Joi.boolean(),
+
+    verificationToken: Joi.string(),
 })
 
 const schemaPatch = Joi.object({
